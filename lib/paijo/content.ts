@@ -31,7 +31,19 @@ export async function getHomeData(): Promise<PaijoHomePayload> {
 export async function getStoryBySlug(slug: string): Promise<PaijoStory | null> {
   const home = await getHomeData();
   const story = [...home.hero, ...home.latest, ...home.spotlight].find((item) => item.slug === slug);
-  return story ?? null;
+  
+  if (!story) return null;
+
+  return {
+    ...story,
+    content: story.content || `
+      <p>Perjalanan menyusuri sudut kota selalu menyisakan banyak cerita. Dari riuhnya lalu lalang kendaraan hingga percakapan pelan di warung kopi kecil, setiap detail memiliki nyawa tersendiri. Ini adalah tampilan dinamis dari konten yang disajikan menggunakan model Paijo, memberikan ruang membaca yang lebih leluasa dan immersif.</p>
+      <h3>Menemukan Sudut Baru</h3>
+      <p>Seringkali, hal-hal menarik justru tersembunyi di balik jalan-jalan utama. Ruang publik, pasar tradisional, atau sekadar bangku taman tua menyimpan histori yang panjang. Artikel ini menggunakan HTML dinamis yang disuntikkan langsung ke halaman, siap untuk diintegrasikan dengan WordPress REST API atau Headless CMS pilihan Anda.</p>
+      <blockquote>"Kota yang baik adalah kota yang terus bergerak tanpa melupakan akar ceritanya."</blockquote>
+      <p>Terus ikuti berbagai liputan menarik kami dan temukan berbagai sudut pandang baru yang mungkin belum pernah Anda sadari sebelumnya.</p>
+    `
+  };
 }
 
 export async function getCategoryBySlug(slug: string): Promise<PaijoCategory | null> {

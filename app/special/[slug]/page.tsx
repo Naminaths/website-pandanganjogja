@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -9,6 +10,28 @@ import { getSpecialPageBySlug } from "@/lib/paijo/content";
 type SpecialPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: SpecialPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const page = await getSpecialPageBySlug(slug);
+
+  if (!page) {
+    return { title: "Halaman Tidak Ditemukan | Pandangan Jogja" };
+  }
+
+  const item = page.item;
+
+  return {
+    title: `${item.title} | Pandangan Jogja`,
+    description: item.excerpt,
+    openGraph: {
+      title: item.title,
+      description: item.excerpt,
+      images: [{ url: item.image }],
+      type: "article",
+    },
+  };
+}
 
 export default async function SpecialPage({ params }: SpecialPageProps) {
   const { slug } = await params;
@@ -39,7 +62,9 @@ export default async function SpecialPage({ params }: SpecialPageProps) {
             <img src={feed.image} alt={feed.imageAlt} className="aspect-[16/9] w-full rounded-[1.75rem] object-cover" />
             <div className="rounded-[1.75rem] border border-black/10 bg-[linear-gradient(180deg,_rgba(29,23,18,0.98),_rgba(12,10,8,0.99))] p-6 text-white">
               <p className="text-xs font-semibold uppercase tracking-[0.4em] text-white/55">Embed URL</p>
-              <p className="mt-4 break-all text-sm leading-7 text-white/75">{feed.embedUrl}</p>
+              <a href={feed.embedUrl} target="_blank" rel="noopener noreferrer" className="mt-4 block break-all text-sm leading-7 text-white/75 hover:text-[color:var(--color-accent)] underline underline-offset-4">
+                {feed.embedUrl}
+              </a>
             </div>
             <Button render={<Link href="/" />}>Back home</Button>
           </CardContent>
@@ -67,16 +92,13 @@ export default async function SpecialPage({ params }: SpecialPageProps) {
         <CardContent className="space-y-6">
           <img src={story.image} alt={story.imageAlt} className="aspect-[16/9] w-full rounded-[1.75rem] object-cover" />
           <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-            <article className="space-y-5 text-base leading-8 text-foreground/80">
-              <p>
-                Special content pages mirror the Paijo editorial structure and can hold either a custom article or a
-                video/feed item from the headless backend.
-              </p>
-              <p>
-                This page is intentionally broad enough for longform explainers, cultural pieces, or embedded video
-                posts from `toko_bercerita`.
-              </p>
-              <Button render={<Link href="/" />}>Back home</Button>
+            <article className="space-y-5 text-base leading-8 text-foreground/80 prose prose-neutral dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tight prose-a:text-[color:var(--color-accent)]">
+              {story.content ? (
+                <div dangerouslySetInnerHTML={{ __html: story.content }} />
+              ) : null}
+              <div className="pt-8">
+                <Button render={<Link href="/" />}>Back home</Button>
+              </div>
             </article>
             <div className="rounded-[1.75rem] border border-black/10 bg-[linear-gradient(180deg,_rgba(29,23,18,0.98),_rgba(12,10,8,0.99))] p-6 text-white">
               <p className="text-xs font-semibold uppercase tracking-[0.4em] text-white/55">Special view</p>

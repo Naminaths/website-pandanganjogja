@@ -19,6 +19,7 @@ export type PaijoStory = {
   href: string;
   kind: PaijoContentKind;
   isHero?: boolean;
+  content?: string;
 };
 
 export type PaijoCategory = {

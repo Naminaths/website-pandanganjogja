@@ -1,9 +1,11 @@
 "use client";
 
-import { MenuIcon, MoonIcon, SearchIcon, XIcon } from "lucide-react";
+import { MenuIcon, MoonIcon, XIcon } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SearchBar } from "@/components/search-bar";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import type { PaijoBrand, PaijoMenuLink } from "@/lib/paijo/types";
@@ -39,18 +41,11 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
                   >
                     <XIcon className="size-4" />
                   </SheetClose>
-                  <Button variant="outline" size="icon-sm" aria-label="Search">
-                    <SearchIcon className="size-4" />
-                  </Button>
+                  <SearchBar />
                 </div>
 
-                <div className="pointer-events-none text-center">
-                  <p className="text-[11px] font-black uppercase tracking-[0.45em] text-white">
-                    {brand.name.split(" ")[0]}
-                  </p>
-                  <p className="text-[11px] font-black uppercase tracking-[0.45em] text-white">
-                    {brand.name.split(" ")[1]}
-                  </p>
+                <div className="pointer-events-none flex justify-center text-center">
+                  <img src={logo.src} alt={brand.name} className="h-5 w-auto" />
                 </div>
 
                 <div className="flex items-center justify-end gap-3 text-right">
@@ -116,18 +111,11 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
         </Sheet>
 
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-          <p className="text-[clamp(1.1rem,2vw,1.6rem)] font-black uppercase tracking-[0.22em] text-foreground">
-            {brand.name.split(" ")[0]}
-          </p>
-          <p className="text-[clamp(1.1rem,2vw,1.6rem)] font-black uppercase tracking-[0.22em] text-foreground">
-            {brand.name.split(" ")[1]}
-          </p>
+          <img src={logo.src} alt={brand.name} className="h-8 w-auto md:h-10" />
         </div>
 
         <div className="flex items-center gap-2 justify-self-end">
-          <Button variant="outline" size="icon" aria-label="Search">
-            <SearchIcon className="size-5" />
-          </Button>
+          <SearchBar />
           <div className="hidden text-right md:block">
             <Badge variant="outline" className="rounded-full border-black/10 bg-white/80 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-foreground/70">
               {brand.secondary}

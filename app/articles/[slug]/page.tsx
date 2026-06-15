@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -9,6 +10,26 @@ import { getStoryBySlug } from "@/lib/paijo/content";
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const story = await getStoryBySlug(slug);
+
+  if (!story) {
+    return { title: "Artikel Tidak Ditemukan | Pandangan Jogja" };
+  }
+
+  return {
+    title: `${story.title} | Pandangan Jogja`,
+    description: story.excerpt,
+    openGraph: {
+      title: story.title,
+      description: story.excerpt,
+      images: [{ url: story.image }],
+      type: "article",
+    },
+  };
+}
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
@@ -40,16 +61,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <CardContent className="space-y-8">
           <img src={story.image} alt={story.imageAlt} className="aspect-[16/9] w-full rounded-[1.75rem] object-cover" />
           <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-            <article className="space-y-5 text-base leading-8 text-foreground/80">
-              <p>
-                Ini adalah tampilan detail artikel untuk konten headless yang berasal dari model Paijo. Halaman ini
-                siap dipetakan ke WordPress REST API atau data feed lain yang mengikuti struktur yang sama.
-              </p>
-              <p>
-                Gunakan halaman ini untuk menampilkan reportase panjang, foto essay, atau tulisan editorial yang
-                membutuhkan ruang baca lebih luas.
-              </p>
-              <Button render={<Link href="/" />}>Back to home</Button>
+            <article className="space-y-5 text-base leading-8 text-foreground/80 prose prose-neutral dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tight prose-a:text-[color:var(--color-accent)]">
+              {story.content ? (
+                <div dangerouslySetInnerHTML={{ __html: story.content }} />
+              ) : null}
+              <div className="pt-8">
+                <Button render={<Link href="/" />}>Back to home</Button>
+              </div>
             </article>
             <div className="rounded-[1.75rem] border border-black/10 bg-[linear-gradient(180deg,_rgba(29,23,18,0.98),_rgba(12,10,8,0.99))] p-6 text-white">
               <p className="text-xs font-semibold uppercase tracking-[0.4em] text-white/55">Reading note</p>
