@@ -1,3 +1,4 @@
+import { z } from "zod";
 import type {
   PaijoCategory,
   PaijoFeedItem,
@@ -5,45 +6,53 @@ import type {
   PaijoStory,
 } from "@/lib/paijo/types";
 
-type WpRendered = {
-  rendered: string;
-};
+// --- 1. Zod Schemas for API Validation ---
+const WpRenderedSchema = z.object({
+  rendered: z.string().default(""),
+}).catch({ rendered: "" });
 
-type WpTerm = {
-  id: number;
-  slug: string;
-  name: string;
-  link?: string;
-};
+const WpTermSchema = z.object({
+  id: z.number().optional(),
+  slug: z.string().default(""),
+  name: z.string().default(""),
+  link: z.string().optional(),
+}).passthrough();
 
-type WpEmbedded = {
-  "wp:featuredmedia"?: Array<{
-    source_url?: string;
-  }>;
-  "wp:term"?: Array<Array<WpTerm>>;
-};
+const WpFeaturedMediaSchema = z.object({
+  source_url: z.string().optional(),
+}).passthrough();
 
-export type WpPostLike = {
-  id: number;
-  slug: string;
-  date: string;
-  link: string;
-  title: WpRendered;
-  excerpt: WpRendered;
-  _embedded?: WpEmbedded;
-  meta?: Record<string, unknown>;
-};
+const WpEmbeddedSchema = z.object({
+  "wp:featuredmedia": z.array(WpFeaturedMediaSchema).optional(),
+  "wp:term": z.array(z.array(WpTermSchema)).optional(),
+}).passthrough();
 
+export const WpPostLikeSchema = z.object({
+  id: z.number().optional(),
+  slug: z.string().default(""),
+  date: z.string().default(""),
+  link: z.string().optional(),
+  title: WpRenderedSchema.optional(),
+  excerpt: WpRenderedSchema.optional(),
+  _embedded: WpEmbeddedSchema.optional(),
+  meta: z.record(z.string(), z.unknown()).optional(),
+}).passthrough();
+
+export type WpPostLike = z.infer<typeof WpPostLikeSchema>;
+
+// --- 2. Configuration ---
 const baseUrl = process.env.WORDPRESS_API_URL?.replace(/\/$/, "") ?? "";
 const apiRoot = baseUrl ? `${baseUrl}/wp-json/wp/v2` : "";
+const WORDS_PER_MINUTE = 200; // Kecepatan rata-rata membaca
 
+// --- 3. Utilities ---
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
 
 function readingTime(excerpt: string): string {
   const words = stripHtml(excerpt).split(/\s+/).filter(Boolean).length;
-  return `${Math.max(2, Math.ceil(words / 45))} min read`;
+  return `${Math.max(1, Math.ceil(words / WORDS_PER_MINUTE))} min read`;
 }
 
 function mediaUrl(item: WpPostLike, fallback: string): string {
@@ -61,6 +70,7 @@ function categoryLabel(item: WpPostLike, fallback: { label: string; slug: string
   };
 }
 
+// --- 4. Data Normalizers ---
 function normalizePost(
   item: WpPostLike,
   fallback: PaijoStory,
@@ -106,30 +116,61 @@ function normalizeFeed(item: WpPostLike, fallback: PaijoFeedItem): PaijoFeedItem
   };
 }
 
-async function wpJson<T>(path: string): Promise<T | null> {
+// --- 5. API Client ---
+async function wpJson<T>(path: string, schema?: z.ZodType<T>): Promise<T | null> {
   if (!apiRoot) {
     return null;
   }
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
     const response = await fetch(`${apiRoot}${path}`, {
       next: { revalidate: 60 },
+      signal: controller.signal,
     });
+    
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
+      console.error(`[WP Fetch Error] Path: ${path}, Status: ${response.status}`);
       return null;
     }
 
-    return (await response.json()) as T;
-  } catch {
+    const json = await response.json();
+    
+    if (schema) {
+      const parsed = schema.safeParse(json);
+      if (!parsed.success) {
+        console.error(`[WP Validation Error] Path: ${path}`, parsed.error.format());
+        return null;
+      }
+      return parsed.data;
+    }
+
+    return json as T;
+  } catch (error) {
+    console.error(`[WP Fetch Exception] Path: ${path}`, error instanceof Error ? error.message : error);
     return null;
   }
 }
 
-async function wpCollection(path: string) {
-  return wpJson<WpPostLike[]>(path);
+function buildCollectionQuery(postType: string, limit: number = 12) {
+  const params = new URLSearchParams({
+    per_page: limit.toString(),
+    _embed: "1",
+    orderby: "date",
+    order: "desc"
+  });
+  return `/${postType}?${params.toString()}`;
 }
 
+async function wpCollection(path: string) {
+  return wpJson<WpPostLike[]>(path, z.array(WpPostLikeSchema));
+}
+
+// --- 6. Business Logic ---
 export async function fetchWordPressHomePayload(
   fallback: PaijoHomePayload
 ): Promise<PaijoHomePayload | null> {
@@ -137,20 +178,21 @@ export async function fetchWordPressHomePayload(
     return null;
   }
 
-  const [posts, paijoContent, tokoBercerita] = await Promise.all([
-    wpCollection("/posts?per_page=12&_embed=1&orderby=date&order=desc"),
-    wpCollection("/paijo_content?per_page=12&_embed=1&orderby=date&order=desc"),
-    wpCollection("/toko_bercerita?per_page=12&_embed=1&orderby=date&order=desc"),
+  const [postsRes, paijoRes, feedsRes] = await Promise.allSettled([
+    wpCollection(buildCollectionQuery("posts", 12)),
+    wpCollection(buildCollectionQuery("paijo_content", 12)),
+    wpCollection(buildCollectionQuery("toko_bercerita", 12)),
   ]);
 
-  if (!posts && !paijoContent && !tokoBercerita) {
+  const sourcePosts = postsRes.status === "fulfilled" && postsRes.value ? postsRes.value : [];
+  const sourcePaijo = paijoRes.status === "fulfilled" && paijoRes.value ? paijoRes.value : [];
+  const sourceFeeds = feedsRes.status === "fulfilled" && feedsRes.value ? feedsRes.value : [];
+
+  if (!sourcePosts.length && !sourcePaijo.length && !sourceFeeds.length) {
     return null;
   }
 
-  const sourcePosts = posts ?? [];
-  const sourcePaijo = paijoContent ?? [];
-  const sourceFeeds = tokoBercerita ?? [];
-
+  // Hero Section
   const heroFallback = fallback.hero;
   const heroSource = sourcePosts
     .filter((item) => item.meta?._paijo_is_hero === "1" || item.meta?._paijo_is_hero === 1)
@@ -161,6 +203,7 @@ export async function fetchWordPressHomePayload(
       ? heroSource.map((item, index) => normalizePost(item, heroFallback[index] ?? heroFallback[0], "post"))
       : heroFallback;
 
+  // Latest & Spotlight
   const mergedStories = [
     ...sourcePosts.map((item, index) =>
       normalizePost(item, fallback.latest[index] ?? fallback.latest[0], "post")
@@ -172,11 +215,14 @@ export async function fetchWordPressHomePayload(
 
   const latest = mergedStories.length > 0 ? mergedStories.slice(0, 6) : fallback.latest;
   const spotlight = mergedStories.length > 3 ? mergedStories.slice(3, 6) : fallback.spotlight;
+
+  // Feeds
   const feeds =
     sourceFeeds.length > 0
       ? sourceFeeds.map((item, index) => normalizeFeed(item, fallback.feeds[index] ?? fallback.feeds[0]))
       : fallback.feeds;
 
+  // Featured Categories
   const featuredCategories: PaijoCategory[] = fallback.featuredCategories.map((category, index) => {
     const matchedTerm = [...sourcePaijo, ...sourcePosts]
       .flatMap((item) => item._embedded?.["wp:term"]?.flat() ?? [])
@@ -200,4 +246,3 @@ export async function fetchWordPressHomePayload(
     featuredCategories,
   };
 }
-
