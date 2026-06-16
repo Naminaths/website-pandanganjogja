@@ -1,51 +1,58 @@
 import type { PaijoHomePayload, PaijoCategory, PaijoFeedItem, PaijoStory } from "@/lib/paijo/types";
 
+// Data dari WordPress export (pandanganjogja.WordPress.2026-06-14.xml)
+// URL gambar menggunakan placeholder publik karena gambar WP ada di server lokal.
+// Saat WordPress REST API aktif, gambar asli akan di-load otomatis dari API.
+
 const heroStories: PaijoStory[] = [
   {
-    slug: "malioboro-pagi-ini",
-    title: "Malioboro pagi ini bergerak pelan, lalu berubah jadi arus cerita",
+    // post_id: 8 | _paijo_is_hero: 1 | category: Kultur
+    slug: "aku-penasaran-kenapa-selalu-ada-penjual-bunga-di-perempatan-gramedia-jogja",
+    title: "Aku Penasaran Kenapa Selalu Ada Penjual Bunga di Perempatan Gramedia Jogja",
     excerpt:
-      "Kabar harian, pejalan kaki, dan lapak yang mulai buka perlahan membentuk halaman depan yang ramah dibaca.",
-    category: "News",
-    categorySlug: "news",
-    date: "2026-06-15",
-    readingTime: "4 min read",
+      "Setiap hari, di bawah terik atau gerimis, sosok-sosok itu tetap ada. Apa yang membuat perempatan ini begitu istimewa bagi mereka?",
+    category: "Kultur",
+    categorySlug: "kultur",
+    date: "2026-06-09",
+    readingTime: "6 min read",
     image:
       "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=1400&q=80",
-    imageAlt: "Street life in a busy city corridor",
-    href: "/articles/malioboro-pagi-ini",
+    imageAlt: "Penjual bunga di perempatan kota Jogja",
+    href: "/articles/aku-penasaran-kenapa-selalu-ada-penjual-bunga-di-perempatan-gramedia-jogja",
     kind: "post",
     isHero: true,
   },
   {
-    slug: "kuliner-malam-di-jogja",
-    title: "Kuliner malam di Jogja yang selalu punya alasan untuk disinggahi",
+    // post_id: 47 | category: News
+    slug: "geliat-tugu-di-bawah-orasi-saat-landmark-budaya-jogja-menjadi-saksi-bisu-tuntutan-massa",
+    title: "Geliat Tugu di Bawah Orasi: Saat Landmark Budaya Jogja Menjadi Saksi Bisu Tuntutan Massa",
     excerpt:
-      "Dari gerobak kaki lima sampai meja kecil di sudut jalan, semuanya menyusun ritme rasa yang akrab.",
-    category: "Kuliner Berbintang",
-    categorySlug: "kuliner-berbintang",
-    date: "2026-06-14",
+      "Tugu Yogyakarta bukan sekadar landmark. Dalam beberapa hari ini, ia menjadi panggung diam dari tuntutan yang lantang.",
+    category: "News",
+    categorySlug: "news",
+    date: "2026-06-13",
     readingTime: "5 min read",
     image:
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=80",
-    imageAlt: "Night food scene with warm lights",
-    href: "/articles/kuliner-malam-di-jogja",
+      "https://images.unsplash.com/photo-1519500528353-2f7f3c4d3e0d?auto=format&fit=crop&w=1400&q=80",
+    imageAlt: "Tugu Yogyakarta saat demo berlangsung",
+    href: "/articles/geliat-tugu-di-bawah-orasi-saat-landmark-budaya-jogja-menjadi-saksi-bisu-tuntutan-massa",
     kind: "post",
     isHero: true,
   },
   {
-    slug: "cerita-warga-di-kawasan-heritage",
-    title: "Cerita warga di kawasan heritage tetap jadi inti dari pembacaan kota",
+    // post_id: 38 | type: paijo_content | category: Derby Istimewa
+    slug: "derby-diy-berwajah-baru-merayakan-sepak-bola-tanpa-air-mata-di-tanah-mataram",
+    title: "Derby DIY Berwajah Baru: Merayakan Sepak Bola Tanpa Air Mata di Tanah Mataram",
     excerpt:
-      "Ruang publik, rumah tua, dan percakapan kecil di sore hari memberi lapisan yang tidak terlihat dari jauh.",
-    category: "Kultur by Pandangan Jogja",
-    categorySlug: "kultur-by-pandangan-jogja",
+      "Rivalitas yang dulu terasa panas kini bertransformasi menjadi perayaan bersama. Derby DIY sedang menemukan wajah barunya.",
+    category: "Derby Istimewa",
+    categorySlug: "derby-istimewa",
     date: "2026-06-13",
-    readingTime: "3 min read",
+    readingTime: "4 min read",
     image:
-      "https://images.unsplash.com/photo-1519500528353-2f7f3c4d3e0d?auto=format&fit=crop&w=1400&q=80",
-    imageAlt: "Heritage district street",
-    href: "/articles/cerita-warga-di-kawasan-heritage",
+      "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1400&q=80",
+    imageAlt: "Stadion sepak bola Derby DIY",
+    href: "/articles/derby-diy-berwajah-baru-merayakan-sepak-bola-tanpa-air-mata-di-tanah-mataram",
     kind: "paijo_content",
     isHero: true,
   },
@@ -96,197 +103,210 @@ const featuredCategories: PaijoCategory[] = [
 
 const latestStories: PaijoStory[] = [
   {
-    slug: "skena-jogsel-malam-ini",
-    title: "Skena Jogsel malam ini lebih ramai dari yang diperkirakan",
+    // post_id: 35 | type: paijo_content | category: Kuliner Berbintang
+    slug: "gudeg-jogja-riwayat-kuliner-keraton-yang-menaklukkan-lidah-dunia",
+    title: "Gudeg Jogja: Riwayat Kuliner Keraton yang Menaklukkan Lidah Dunia",
     excerpt:
-      "Panggung kecil, lampu hangat, dan percakapan yang bertahan sampai larut mengisi daerah ini dengan energi baru.",
+      "Dari dapur keraton ke meja makan dunia — sebuah perjalanan panjang gudeg yang kini menjadi identitas tak tergantikan kota ini.",
+    category: "Kuliner Berbintang",
+    categorySlug: "kuliner-berbintang",
+    date: "2026-06-13",
+    readingTime: "5 min read",
+    image:
+      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Gudeg Jogja dalam tampah tradisional",
+    href: "/articles/gudeg-jogja-riwayat-kuliner-keraton-yang-menaklukkan-lidah-dunia",
+    kind: "paijo_content",
+  },
+  {
+    // post_id: 41 | type: paijo_content | category: Skena Jogsel
+    slug: "demam-pelana-di-bumi-projotamansari-ketika-pemuda-bantul-ramai-ramai-beralih-ke-olahraga-berkuda",
+    title: "Demam Pelana di Bumi Projotamansari: Ketika Pemuda Bantul Ramai-Ramai Beralih ke Olahraga Berkuda",
+    excerpt:
+      "Olahraga berkuda yang dulu terasa eksklusif kini merambah ke halaman-halaman Bantul. Apa yang menggerakkan tren ini?",
     category: "Skena Jogsel",
     categorySlug: "skena-jogsel",
-    date: "2026-06-15",
+    date: "2026-06-13",
     readingTime: "4 min read",
     image:
       "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Live music crowd at night",
-    href: "/articles/skena-jogsel-malam-ini",
+    imageAlt: "Pemuda Bantul berlatih berkuda",
+    href: "/articles/demam-pelana-di-bumi-projotamansari-ketika-pemuda-bantul-ramai-ramai-beralih-ke-olahraga-berkuda",
     kind: "paijo_content",
   },
   {
-    slug: "derby-istimewa-kota",
-    title: "Derby Istimewa membawa memori lama ke halaman depan baru",
+    // post_id: 44 | type: paijo_content | category: Kultur by Pandangan Jogja
+    slug: "bukan-sekadar-hura-hura-menakar-suntikan-energi-kebudayaan-populer-di-panggung-cherrypop",
+    title: "Bukan Sekadar Hura-Hura: Menakar Suntikan Energi Kebudayaan Populer di Panggung Cherrypop",
     excerpt:
-      "Olahraga, identitas lokal, dan kebiasaan berkumpul di tribun masih punya tempat yang kuat di kota ini.",
-    category: "Derby Istimewa",
-    categorySlug: "derby-istimewa",
-    date: "2026-06-14",
-    readingTime: "3 min read",
+      "Cherrypop bukan festival biasa. Di balik gegap gempitanya, ada pertanyaan serius soal arah kebudayaan populer kita.",
+    category: "Kultur by Pandangan Jogja",
+    categorySlug: "kultur-by-pandangan-jogja",
+    date: "2026-06-13",
+    readingTime: "4 min read",
     image:
-      "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Football stadium crowd",
-    href: "/articles/derby-istimewa-kota",
+      "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Panggung festival Cherrypop Yogyakarta",
+    href: "/articles/bukan-sekadar-hura-hura-menakar-suntikan-energi-kebudayaan-populer-di-panggung-cherrypop",
     kind: "paijo_content",
   },
   {
-    slug: "tinggal-di-jogja-yang-terus-berubah",
-    title: "Tinggal di Jogja: ritme baru, pilihan lama, dan ruang untuk menetap",
+    // post_id: 50 | type: post | category: News
+    slug: "menantang-arus-kemiskinan-kisah-mereka-yang-mengais-asa-di-pinggiran-bantaran-sungai-jogja",
+    title: "Menantang Arus Kemiskinan: Kisah Mereka yang Mengais Asa di Pinggiran Bantaran Sungai Jogja",
     excerpt:
-      "Hunian, mobilitas, dan kebiasaan sehari-hari saling membentuk cara orang melihat kota ini.",
-    category: "Tinggal di Jogja",
-    categorySlug: "tinggal-di-jogja",
+      "Di tepian Code dan Winongo, ada keluarga-keluarga yang bertahan dengan cara-cara yang tidak pernah terbayangkan sebelumnya.",
+    category: "News",
+    categorySlug: "news",
     date: "2026-06-13",
     readingTime: "5 min read",
     image:
       "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Living room interior",
-    href: "/articles/tinggal-di-jogja-yang-terus-berubah",
-    kind: "paijo_content",
-  },
-  {
-    slug: "kultur-by-pandangan-jogja-ruang-baru",
-    title: "Kultur by Pandangan Jogja membuka ruang baca yang terasa hangat",
-    excerpt:
-      "Desain editorial yang rapi membantu cerita panjang tetap nyaman diikuti dari awal sampai akhir.",
-    category: "Kultur by Pandangan Jogja",
-    categorySlug: "kultur-by-pandangan-jogja",
-    date: "2026-06-12",
-    readingTime: "4 min read",
-    image:
-      "https://images.unsplash.com/photo-1487611459768-bd414656ea10?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Person reading in a calm interior",
-    href: "/articles/kultur-by-pandangan-jogja-ruang-baru",
-    kind: "paijo_content",
-  },
-  {
-    slug: "pasar-malam-dan-cerita-warga",
-    title: "Pasar malam dan cerita warga yang membuat kota terasa dekat",
-    excerpt:
-      "Tenda, aroma makanan, dan kerumunan kecil memberi lapisan sosial yang hidup di setiap sudut.",
-    category: "News",
-    categorySlug: "news",
-    date: "2026-06-11",
-    readingTime: "3 min read",
-    image:
-      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Busy night market scene",
-    href: "/articles/pasar-malam-dan-cerita-warga",
+    imageAlt: "Pemukiman di bantaran sungai Jogja",
+    href: "/articles/menantang-arus-kemiskinan-kisah-mereka-yang-mengais-asa-di-pinggiran-bantaran-sungai-jogja",
     kind: "post",
   },
   {
-    slug: "urban-legend-gang-kecil",
-    title: "Urban legend gang kecil yang tetap hidup dari satu generasi ke generasi berikutnya",
+    // post_id: 53 | type: post | category: Urban Legend
+    slug: "melintasi-zaman-dan-generasi-mengapa-khazanah-nyi-roro-kidul-tetap-sakral-di-era-modern",
+    title: "Melintasi Zaman dan Generasi: Mengapa Khazanah Nyi Roro Kidul Tetap Sakral di Era Modern",
     excerpt:
-      "Cerita lama kota sering bertahan karena terus diceritakan ulang oleh warga dan penikmatnya.",
+      "Dari dongeng nenek moyang hingga konten viral, sosok Nyi Roro Kidul terus hadir dan mengukuhkan diri di imajinasi kolektif Jogja.",
     category: "Urban Legend",
     categorySlug: "urban-legend",
-    date: "2026-06-10",
+    date: "2026-06-13",
     readingTime: "4 min read",
     image:
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Narrow alley with city lights",
-    href: "/articles/urban-legend-gang-kecil",
+    imageAlt: "Pantai selatan Jogja dalam nuansa mistis",
+    href: "/articles/melintasi-zaman-dan-generasi-mengapa-khazanah-nyi-roro-kidul-tetap-sakral-di-era-modern",
     kind: "post",
+  },
+  {
+    // post_id: 86 | type: paijo_content | category: Tinggal di Jogja
+    slug: "menatap-jogja-hari-ini-bagaimana-kos-kontrak-dan-rumah-pribadi-menawarkan-level-bahagia-yang-sama",
+    title: "Menatap Jogja Hari Ini: Bagaimana Kos, Kontrak, dan Rumah Pribadi Menawarkan Level Bahagia yang Sama",
+    excerpt:
+      "Tinggal di Jogja punya banyak cara. Ternyata, kebahagiaannya bukan soal status hunian — melainkan soal bagaimana kamu menjalaninya.",
+    category: "Tinggal di Jogja",
+    categorySlug: "tinggal-di-jogja",
+    date: "2026-06-14",
+    readingTime: "5 min read",
+    image:
+      "https://images.unsplash.com/photo-1487611459768-bd414656ea10?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Kamar kos yang nyaman di Yogyakarta",
+    href: "/articles/menatap-jogja-hari-ini-bagaimana-kos-kontrak-dan-rumah-pribadi-menawarkan-level-bahagia-yang-sama",
+    kind: "paijo_content",
   },
 ];
 
 const spotlightStories: PaijoStory[] = [
   {
-    slug: "art-space-di-selatan-kota",
-    title: "Art space di selatan kota yang menampung ide sampai malam",
+    // post_id: 89 | type: paijo_content | category: Tinggal di Jogja
+    slug: "burjo-dan-angkringan-mulai-terpinggirkan-ternyata-ini-rahasia-kuliner-lokal-jogja-tetap-bertahan-di-tengah-modernisasi",
+    title: "Burjo dan Angkringan Mulai Terpinggirkan: Rahasia Kuliner Lokal Jogja Bertahan di Tengah Modernisasi",
     excerpt:
-      "Studio kecil, obrolan santai, dan papan pengumuman membuat tempat ini terasa hidup setiap akhir pekan.",
-    category: "Khas",
-    categorySlug: "khas",
-    date: "2026-06-09",
-    readingTime: "3 min read",
-    image:
-      "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=80",
-    imageAlt: "Creative studio space",
-    href: "/articles/art-space-di-selatan-kota",
-    kind: "post",
-  },
-  {
-    slug: "kopi-dan-ruang-baca",
-    title: "Kopi dan ruang baca yang menyatukan pagi yang tenang",
-    excerpt:
-      "Satu sudut kecil yang baik sering kali cukup untuk membuat pembaca ingin tinggal lebih lama.",
-    category: "Insight",
-    categorySlug: "insight",
-    date: "2026-06-08",
-    readingTime: "2 min read",
-    image:
-      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=900&q=80",
-    imageAlt: "Coffee and reading nook",
-    href: "/articles/kopi-dan-ruang-baca",
-    kind: "post",
-  },
-  {
-    slug: "kuliner-berbintang-akhir-pekan",
-    title: "Kuliner Berbintang yang layak masuk agenda akhir pekan",
-    excerpt:
-      "Pilihan rasa, harga, dan suasana yang memberi alasan kuat untuk kembali lagi.",
-    category: "Kuliner Berbintang",
-    categorySlug: "kuliner-berbintang",
-    date: "2026-06-07",
+      "Café viral datang dan pergi, tapi angkringan tetap ada. Rahasia ketahanannya tersimpan di balik kesederhanaan yang sering diremehkan.",
+    category: "Tinggal di Jogja",
+    categorySlug: "tinggal-di-jogja",
+    date: "2026-06-14",
     readingTime: "4 min read",
     image:
-      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80",
-    imageAlt: "Restaurant table and dishes",
-    href: "/articles/kuliner-berbintang-akhir-pekan",
+      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=900&q=80",
+    imageAlt: "Angkringan khas Jogja di malam hari",
+    href: "/articles/burjo-dan-angkringan-mulai-terpinggirkan-ternyata-ini-rahasia-kuliner-lokal-jogja-tetap-bertahan-di-tengah-modernisasi",
     kind: "paijo_content",
+  },
+  {
+    // post_id: 92 | type: paijo_content | category: Tinggal di Jogja
+    slug: "dilema-aspal-yogyakarta-menakar-nasib-andong-dan-becak-di-tengah-deru-digitalisasi-transportasi",
+    title: "Dilema Aspal Yogyakarta: Menakar Nasib Andong dan Becak di Tengah Deru Digitalisasi Transportasi",
+    excerpt:
+      "Andong dan becak adalah jiwa kota wisata ini. Tapi di era ojol dan kendaraan listrik, apakah mereka masih punya tempat berpijak?",
+    category: "Tinggal di Jogja",
+    categorySlug: "tinggal-di-jogja",
+    date: "2026-06-14",
+    readingTime: "5 min read",
+    image:
+      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80",
+    imageAlt: "Andong melintas di jalan Malioboro",
+    href: "/articles/dilema-aspal-yogyakarta-menakar-nasib-andong-dan-becak-di-tengah-deru-digitalisasi-transportasi",
+    kind: "paijo_content",
+  },
+  {
+    // post_id: 80 | type: post | category: News
+    slug: "menjaga-jiwa-kota-pelajar-di-tengah-gempuran-hotel-dan-kafe-estetik",
+    title: "Menjaga Jiwa Kota Pelajar di Tengah Gempuran Hotel dan Kafe Estetik",
+    excerpt:
+      "Jogja berubah cepat. Tapi apakah identitasnya sebagai kota pelajar bisa bertahan dari serbuan kapital yang terus mengalir?",
+    category: "News",
+    categorySlug: "news",
+    date: "2026-06-14",
+    readingTime: "4 min read",
+    image:
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
+    imageAlt: "Kafe estetik di kawasan kampus Jogja",
+    href: "/articles/menjaga-jiwa-kota-pelajar-di-tengah-gempuran-hotel-dan-kafe-estetik",
+    kind: "post",
   },
 ];
 
 const feedItems: PaijoFeedItem[] = [
   {
-    slug: "toko-bercerita-kopi-jalanan",
-    title: "Kopi Jalanan dan percakapan yang memulai hari lebih ringan",
+    // post_id: 97 | toko_bercerita | Gudeg Pawon
+    slug: "gudeg-pawon-sensasi-kuliner-tengah-malam-langsung-dari-dapur",
+    title: "Gudeg Pawon, Sensasi Kuliner Tengah Malam Langsung dari Dapur",
     excerpt:
-      "Potongan video singkat yang memperlihatkan bagaimana satu lapak sederhana bisa membangun ritual harian.",
+      "Antri dari tengah malam, makan langsung di samping tungku kayu. Pengalaman Gudeg Pawon yang tidak bisa ditemukan di tempat lain.",
     category: "Toko Bercerita",
-    embedUrl: "https://www.instagram.com/p/C7X-example/",
+    embedUrl: "https://www.instagram.com/pandanganjogja/",
     image:
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Coffee cup on a city street table",
-    href: "/special/toko-bercerita-kopi-jalanan",
-    date: "2026-06-15",
-  },
-  {
-    slug: "toko-bercerita-bengkel-kreatif",
-    title: "Bengkel kreatif yang mengubah sudut kecil menjadi panggung ide",
-    excerpt:
-      "Video ini mengikuti proses membangun karya dari ruang kerja yang penuh percobaan.",
-    category: "Toko Bercerita",
-    embedUrl: "https://www.tiktok.com/@pandanganjogja/video/1234567890",
-    image:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Creative workshop with tools",
-    href: "/special/toko-bercerita-bengkel-kreatif",
+    imageAlt: "Gudeg Pawon Yogyakarta suasana malam",
+    href: "/special/gudeg-pawon-sensasi-kuliner-tengah-malam-langsung-dari-dapur",
     date: "2026-06-14",
   },
   {
-    slug: "toko-bercerita-toko-tua",
-    title: "Toko tua yang masih menyimpan banyak percakapan baik",
+    // post_id: 111 (Barber Brown) | toko_bercerita
+    slug: "barber-brown-barbershop-dengan-jiwa-lokal-yang-kuat",
+    title: "Barber Brown: Barbershop dengan Jiwa Lokal yang Kuat",
     excerpt:
-      "Ruang ritel lama yang bertahan karena pelanggan dan cerita yang terus kembali.",
+      "Di antara barbershop franchise yang menjamur, Barber Brown memilih jalannya sendiri — otentik, komunal, dan khas Jogja.",
     category: "Toko Bercerita",
-    embedUrl: "https://www.instagram.com/p/C7Y-example/",
+    embedUrl: "https://www.instagram.com/pandanganjogja/",
     image:
-      "https://images.unsplash.com/photo-1513682128068-702bb9d8dc61?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Vintage storefront",
-    href: "/special/toko-bercerita-toko-tua",
-    date: "2026-06-13",
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Interior Barber Brown Yogyakarta",
+    href: "/special/barber-brown-barbershop-dengan-jiwa-lokal-yang-kuat",
+    date: "2026-06-14",
   },
   {
-    slug: "toko-bercerita-ritme-malam",
-    title: "Ritme malam dari sudut kuliner yang paling ramai dibicarakan",
+    // post_id: 115 (Kava-Naa) | toko_bercerita
+    slug: "kava-naa-cerita-kopi-dari-sudut-yang-tak-terduga",
+    title: "Kava-Naa: Cerita Kopi dari Sudut yang Tak Terduga",
     excerpt:
-      "Klip vertikal yang cocok untuk halaman depan dengan nuansa editorial yang hidup.",
+      "Kava-Naa hadir dengan konsep yang sederhana: kopi bagus, ruang nyaman, dan percakapan yang mengalir tanpa terburu-buru.",
     category: "Toko Bercerita",
-    embedUrl: "https://www.tiktok.com/@pandanganjogja/video/9876543210",
+    embedUrl: "https://www.instagram.com/pandanganjogja/",
+    image:
+      "https://images.unsplash.com/photo-1513682128068-702bb9d8dc61?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Kedai kopi Kava-Naa Yogyakarta",
+    href: "/special/kava-naa-cerita-kopi-dari-sudut-yang-tak-terduga",
+    date: "2026-06-14",
+  },
+  {
+    // post_id: 106 (Kostbox) | toko_bercerita
+    slug: "kostbox-id-penitipan-barang-solusi-cerdas-untuk-anak-kos-jogja",
+    title: "Kostbox.id: Penitipan Barang Solusi Cerdas untuk Anak Kos Jogja",
+    excerpt:
+      "Pindah kos tapi barang tak tertampung? Kostbox hadir sebagai solusi praktis yang lahir dari pemahaman mendalam kebutuhan mahasiswa.",
+    category: "Toko Bercerita",
+    embedUrl: "https://www.instagram.com/pandanganjogja/",
     image:
       "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Warm night food stall",
-    href: "/special/toko-bercerita-ritme-malam",
-    date: "2026-06-12",
+    imageAlt: "Layanan penitipan barang Kostbox.id Yogyakarta",
+    href: "/special/kostbox-id-penitipan-barang-solusi-cerdas-untuk-anak-kos-jogja",
+    date: "2026-06-14",
   },
 ];
 
@@ -324,4 +344,3 @@ export const seedHomePayload: PaijoHomePayload = {
     feedLabel: "Toko Bercerita",
   },
 };
-

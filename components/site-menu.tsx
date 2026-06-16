@@ -120,18 +120,8 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
           />
         </div>
 
-        {/* RIGHT: INOVATIF TERPERCAYA # */}
-        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-          {/* Text label — hidden on mobile, visible sm+ */}
-          <div className="hidden flex-col text-right text-[9px] font-black uppercase leading-tight tracking-[0.28em] text-white sm:flex sm:text-[10px]">
-            <span>INOVATIF</span>
-            <span>TERPERCAYA</span>
-          </div>
-          {/* # — smaller on mobile */}
-          <span className="hidden sm:inline text-[1.75rem] font-black leading-none text-[color:var(--color-accent)] lg:text-[2rem]">
-            #
-          </span>
-        </div>
+        {/* RIGHT: spacer to maintain centering */}
+        <div className="ml-auto" />
       </div>
 
       {/* ── Dropdown menu panel ── */}
@@ -159,7 +149,8 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
                     key={item.label}
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className="group flex items-center gap-2.5 py-2 text-lg font-black tracking-[-0.02em] text-white transition-all duration-150 hover:text-[color:var(--color-accent)] sm:py-2.5 sm:text-xl"
+                    className="group flex items-center gap-2.5 py-2 text-lg font-black tracking-[-0.02em] transition-all duration-150 hover:text-[color:var(--color-accent)] sm:py-2.5 sm:text-xl"
+                    style={{ color: '#ffffff' }}
                   >
                     <span className="block h-px w-0 shrink-0 bg-[color:var(--color-accent)] transition-all duration-200 group-hover:w-4" />
                     {item.label}
@@ -179,7 +170,8 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
                     key={item.label}
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className="group flex items-center gap-2.5 py-1.5 text-sm font-semibold tracking-[-0.01em] text-white/75 transition-all duration-150 hover:text-[color:var(--color-accent)] sm:text-base"
+                    className="group flex items-center gap-2.5 py-1.5 text-sm font-semibold tracking-[-0.01em] transition-all duration-150 hover:text-[color:var(--color-accent)] sm:text-base"
+                    style={{ color: '#ffffff' }}
                   >
                     <span className="block h-px w-0 shrink-0 bg-[color:var(--color-accent)] transition-all duration-200 group-hover:w-3" />
                     {item.label}
@@ -199,15 +191,7 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
             </div>
           </div>
 
-          {/* Bottom strip */}
-          <div className="flex items-center justify-between border-t border-white/[0.07] px-4 py-2.5 sm:px-6 lg:px-8">
-            <span className="text-[9px] font-semibold uppercase tracking-[0.4em] text-white/20">
-              Inovatif
-            </span>
-            <span className="text-[9px] font-semibold uppercase tracking-[0.4em] text-white/20">
-              Terpercaya
-            </span>
-          </div>
+
         </div>
       </div>
 
