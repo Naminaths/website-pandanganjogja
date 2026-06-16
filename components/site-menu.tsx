@@ -126,7 +126,7 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
 
       {/* ── Dropdown menu panel ── */}
       <div
-        className="overflow-hidden transition-all duration-[380ms] ease-in-out"
+        className="overflow-hidden transition-all duration-380 ease-in-out"
         style={{
           maxHeight: menuOpen ? "520px" : "0px",
           opacity: menuOpen ? 1 : 0,
@@ -149,10 +149,10 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
                     key={item.label}
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className="group flex items-center gap-2.5 py-2 text-lg font-black tracking-[-0.02em] transition-all duration-150 hover:text-[color:var(--color-accent)] sm:py-2.5 sm:text-xl"
+                    className="group flex items-center gap-2.5 py-2 text-lg font-black tracking-[-0.02em] transition-all duration-150 hover:text-(--color-accent) sm:py-2.5 sm:text-xl"
                     style={{ color: '#ffffff' }}
                   >
-                    <span className="block h-px w-0 shrink-0 bg-[color:var(--color-accent)] transition-all duration-200 group-hover:w-4" />
+                    <span className="block h-px w-0 shrink-0 bg-(--color-accent) transition-all duration-200 group-hover:w-4" />
                     {item.label}
                   </a>
                 ))}
@@ -161,7 +161,7 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
 
             {/* RIGHT: Konten Khusus */}
             <div className="relative pt-6 md:pl-12 md:pt-0">
-              <p className="text-[9px] font-black uppercase tracking-[0.45em] text-[color:var(--color-accent)] sm:text-[10px]">
+              <p className="text-[9px] font-black uppercase tracking-[0.45em] text-(--color-accent) sm:text-[10px]">
                 Konten Khusus
               </p>
               <div className="mt-4 space-y-0">
@@ -170,10 +170,10 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
                     key={item.label}
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className="group flex items-center gap-2.5 py-1.5 text-sm font-semibold tracking-[-0.01em] transition-all duration-150 hover:text-[color:var(--color-accent)] sm:text-base"
+                    className="group flex items-center gap-2.5 py-1.5 text-sm font-semibold tracking-[-0.01em] transition-all duration-150 hover:text-(--color-accent) sm:text-base"
                     style={{ color: '#ffffff' }}
                   >
-                    <span className="block h-px w-0 shrink-0 bg-[color:var(--color-accent)] transition-all duration-200 group-hover:w-3" />
+                    <span className="block h-px w-0 shrink-0 bg-(--color-accent) transition-all duration-200 group-hover:w-3" />
                     {item.label}
                   </a>
                 ))}
@@ -183,7 +183,7 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
               <div className="absolute bottom-0 right-0 hidden lg:block">
                 <button
                   aria-label="Toggle dark mode"
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--color-accent)]/35 bg-white text-[color:var(--color-accent)] shadow-[0_8px_28px_rgba(241,129,143,0.18)] transition-all duration-200 hover:scale-105 hover:shadow-[0_8px_36px_rgba(241,129,143,0.32)]"
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-accent/35 bg-white text-(--color-accent) shadow-[0_8px_28px_rgba(241,129,143,0.18)] transition-all duration-200 hover:scale-105 hover:shadow-[0_8px_36px_rgba(241,129,143,0.32)]"
                 >
                   <MoonIcon className="size-4" />
                 </button>
@@ -197,7 +197,7 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
 
       {/* ── Search overlay ── */}
       <div
-        className="overflow-hidden transition-all duration-[380ms] ease-in-out"
+        className="overflow-hidden transition-all duration-380 ease-in-out"
         style={{
           maxHeight: searchOpen ? "80px" : "0px",
           opacity: searchOpen ? 1 : 0,
@@ -218,12 +218,12 @@ export function SiteMenu({ brand, menu }: SiteMenuProps) {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Escape" && setSearchOpen(false)}
                 placeholder="Cari artikel..."
-                className="h-10 w-full rounded-full border border-white/12 bg-white/9 pl-10 pr-4 text-sm text-white placeholder:text-white/35 outline-none transition-all duration-200 focus:border-[color:var(--color-accent)]/55 focus:bg-white/14 sm:h-11 sm:pl-12 sm:text-base"
+                className="h-10 w-full rounded-full border border-white/12 bg-white/9 pl-10 pr-4 text-sm text-white placeholder:text-white/35 outline-none transition-all duration-200 focus:border-accent/55 focus:bg-white/14 sm:h-11 sm:pl-12 sm:text-base"
               />
             </div>
             <button
               type="submit"
-              className="h-10 shrink-0 rounded-full bg-[color:var(--color-accent)] px-5 text-[11px] font-black uppercase tracking-[0.2em] text-white transition-all duration-200 hover:brightness-110 active:scale-95 sm:h-11 sm:px-7 sm:text-sm"
+              className="h-10 shrink-0 rounded-full bg-(--color-accent) px-5 text-[11px] font-black uppercase tracking-[0.2em] text-white transition-all duration-200 hover:brightness-110 active:scale-95 sm:h-11 sm:px-7 sm:text-sm"
             >
               CARI
             </button>

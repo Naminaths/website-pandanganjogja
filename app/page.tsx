@@ -12,13 +12,13 @@ export default async function Home() {
   const [featuredStory, secondaryStory, ...latestStories] = home.latest;
 
   return (
-    <main className="overflow-x-hidden bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.75),_transparent_30%),linear-gradient(180deg,_#f7f5f0_0%,_#efe4d6_50%,_#e2d4c4_100%)] text-foreground">
+    <main className="overflow-x-hidden bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.75),transparent_30%),linear-gradient(180deg,#f7f5f0_0%,#efe4d6_50%,#e2d4c4_100%)] text-foreground">
       <HeroSlider slides={home.hero} articles={home.latest} />
 
       <section id="categories" className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[color:var(--color-accent)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.45em] text-(--color-accent)">
               Kategori Utama
             </p>
             <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] sm:text-3xl">
@@ -38,9 +38,9 @@ export default async function Home() {
                   <img
                     src={category.image}
                     alt={category.label}
-                    className="aspect-[3/4] w-full object-cover"
+                    className="aspect-3/4 w-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,_transparent,_rgba(0,0,0,0.55))]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.55))]" />
                   <div className="absolute inset-x-0 bottom-0 p-5 text-white">
                     <div className="flex items-center justify-between gap-4">
                       <Badge className="rounded-full bg-black/60 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-white">
@@ -66,7 +66,7 @@ export default async function Home() {
 
       <section id="latest" className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <Card className="overflow-hidden border-black/10 bg-[linear-gradient(135deg,_rgba(17,17,17,0.96),_rgba(26,26,26,0.98))] text-white shadow-[0_24px_70px_rgba(20,12,6,0.22)]">
+          <Card className="overflow-hidden border-black/10 bg-[linear-gradient(135deg,rgba(17,17,17,0.96),rgba(26,26,26,0.98))] text-white shadow-[0_24px_70px_rgba(20,12,6,0.22)]">
             <CardHeader className="space-y-4">
               <div className="flex items-center justify-between gap-4">
                 <Badge className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-white">
@@ -125,7 +125,7 @@ export default async function Home() {
                       className="h-24 w-24 shrink-0 rounded-2xl object-cover"
                     />
                     <div className="min-w-0">
-                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[color:var(--color-accent)]">
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-(--color-accent)">
                         {story.category}
                       </p>
                       <h3 className="mt-2 text-lg font-black leading-6 tracking-[-0.03em] text-foreground">
@@ -146,7 +146,7 @@ export default async function Home() {
       <section id="spotlight" className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[color:var(--color-accent)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.45em] text-(--color-accent)">
               Konten Khusus
             </p>
             <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] sm:text-3xl">
@@ -159,7 +159,7 @@ export default async function Home() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-          <Card className="border-black/10 bg-[linear-gradient(180deg,_rgba(36,27,18,0.96),_rgba(18,14,10,0.98))] text-white shadow-[0_18px_60px_rgba(20,12,6,0.22)]">
+          <Card className="border-black/10 bg-[linear-gradient(180deg,rgba(36,27,18,0.96),rgba(18,14,10,0.98))] text-white shadow-[0_18px_60px_rgba(20,12,6,0.22)]">
             <CardHeader>
               <p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/55">
                 Featured special
@@ -174,7 +174,7 @@ export default async function Home() {
             <CardContent className="grid gap-3 sm:grid-cols-2">
               {home.menu.special.slice(0, 4).map((item) => (
                 <Link key={item.label} href={item.href} className="block rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10">
-                  <p className="text-sm font-black uppercase tracking-[0.28em] text-[color:var(--color-accent)]">
+                  <p className="text-sm font-black uppercase tracking-[0.28em] text-(--color-accent)">
                     {item.label}
                   </p>
                   {item.description ? (
@@ -193,10 +193,10 @@ export default async function Home() {
                     <img
                       src={story.image}
                       alt={story.imageAlt}
-                      className="aspect-[4/3] w-full object-cover"
+                      className="aspect-4/3 w-full object-cover"
                     />
                     <div className="p-4">
-                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[color:var(--color-accent)]">
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-(--color-accent)">
                         {story.category}
                       </p>
                       <h3 className="mt-2 text-lg font-black leading-7 tracking-[-0.03em]">
@@ -215,7 +215,7 @@ export default async function Home() {
       <section id="feeds" className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[color:var(--color-accent)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.45em] text-(--color-accent)">
               {home.sections.feedLabel}
             </p>
             <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] sm:text-3xl">
@@ -234,7 +234,7 @@ export default async function Home() {
         <Card className="border-black/10 bg-background/90 shadow-[0_18px_60px_rgba(84,54,21,0.08)]">
           <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[color:var(--color-accent)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.45em] text-(--color-accent)">
                 About
               </p>
               <CardTitle className="mt-2 text-2xl font-black tracking-[-0.04em] sm:text-3xl">
