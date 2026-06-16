@@ -13,7 +13,7 @@ export default async function Home() {
 
   return (
     <main className="overflow-x-hidden bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.75),_transparent_30%),linear-gradient(180deg,_#f7f5f0_0%,_#efe4d6_50%,_#e2d4c4_100%)] text-foreground">
-      <HeroSlider slides={home.hero} />
+      <HeroSlider slides={home.hero} articles={home.latest} />
 
       <section id="categories" className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-end justify-between gap-4">

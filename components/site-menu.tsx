@@ -1,14 +1,10 @@
 "use client";
 
-import { MenuIcon, MoonIcon, XIcon } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { MenuIcon, MoonIcon, SearchIcon, XIcon } from "lucide-react";
+import logoWhite from "@/assets/logo-white.png";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { SearchBar } from "@/components/search-bar";
-import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import type { PaijoBrand, PaijoMenuLink } from "@/lib/paijo/types";
+import { useEffect, useRef, useState } from "react";
 
 type SiteMenuProps = {
   brand: PaijoBrand;
@@ -19,108 +15,235 @@ type SiteMenuProps = {
 };
 
 export function SiteMenu({ brand, menu }: SiteMenuProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+
+  /* ── scroll detection ── */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* ── auto-focus search input ── */
+  useEffect(() => {
+    if (searchOpen) {
+      const t = setTimeout(() => searchInputRef.current?.focus(), 80);
+      return () => clearTimeout(t);
+    }
+  }, [searchOpen]);
+
+  /* ── close menu on outside click ── */
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [menuOpen]);
+
+  /* ── close on Escape ── */
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        setSearchOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, []);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-40 border-b border-black/10 bg-background/85 backdrop-blur-xl">
-      <div className="relative mx-auto grid w-full max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3 sm:px-6 lg:px-8">
-        <Sheet>
-          <SheetTrigger
-            render={<Button variant="outline" size="icon" aria-label="Open menu" />}
+    <header
+      ref={headerRef}
+      className="fixed top-0 left-0 right-0 z-40 transition-all duration-500"
+      style={{
+        /* Background + blur lives on the FULL-WIDTH header — clean on all screen sizes */
+        background: scrolled ? "rgba(8,8,8,0.85)" : "transparent",
+        backdropFilter: scrolled ? "blur(18px) saturate(1.6)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(18px) saturate(1.6)" : "none",
+      }}
+    >
+      {/* ── Navbar row ── */}
+      <div className="relative mx-auto flex w-full max-w-7xl items-center px-3 py-2.5 sm:px-6 sm:py-3 lg:px-8">
+
+        {/* LEFT: Hamburger + Search */}
+        <div className="flex items-center gap-0.5 sm:gap-1">
+          {/* Hamburger */}
+          <button
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => { setMenuOpen((v) => !v); setSearchOpen(false); }}
+            className={[
+              "flex h-8 w-8 items-center justify-center rounded-full border transition-all duration-200 sm:h-9 sm:w-9",
+              menuOpen
+                ? "border-white/25 bg-white/10 text-white"
+                : "border-transparent text-white hover:border-white/15 hover:bg-white/8",
+            ].join(" ")}
           >
-            <MenuIcon className="size-5" />
-          </SheetTrigger>
-          <SheetContent
-            side="left"
-            className="!fixed !inset-0 !h-screen !w-screen !max-w-none !rounded-none !border-none bg-[linear-gradient(180deg,_rgba(15,15,15,0.99),_rgba(3,3,3,0.99))] p-0 text-background shadow-none data-[side=left]:!w-screen data-[side=left]:!max-w-none data-[side=left]:!border-r-0"
-            showCloseButton={false}
+            {menuOpen
+              ? <XIcon className="size-3.5 sm:size-4" />
+              : <MenuIcon className="size-4 sm:size-[1.1rem]" />
+            }
+          </button>
+
+          {/* Search */}
+          <button
+            aria-label="Search"
+            onClick={() => { setSearchOpen((v) => !v); setMenuOpen(false); }}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-transparent text-white transition-all duration-200 hover:border-white/15 hover:bg-white/8 sm:h-9 sm:w-9"
           >
-            <div className="flex h-full flex-col">
-              <div className="grid grid-cols-[1fr_auto_1fr] items-center border-b border-white/10 px-4 py-3 sm:px-6 lg:px-8">
-                <div className="flex items-center gap-2">
-                  <SheetClose
-                    render={<Button variant="outline" size="icon-sm" aria-label="Close menu" />}
-                  >
-                    <XIcon className="size-4" />
-                  </SheetClose>
-                  <SearchBar />
-                </div>
-
-                <div className="pointer-events-none flex justify-center text-center">
-                  <img src={logo.src} alt={brand.name} className="h-5 w-auto" />
-                </div>
-
-                <div className="flex items-center justify-end gap-3 text-right">
-                  <div className="hidden sm:block">
-                    <p className="text-[11px] font-black uppercase tracking-[0.28em] text-white">
-                      {brand.secondary}
-                    </p>
-                  </div>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--color-accent)]/55 bg-white text-[color:var(--color-accent)]">
-                    <span className="text-3xl font-black leading-none">#</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative grid flex-1 gap-10 px-6 py-10 sm:px-8 lg:grid-cols-2 lg:px-10 lg:py-14">
-                <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.5em] text-white/45">
-                    Kategori Utama
-                  </p>
-                  <Separator className="my-5 bg-white/10" />
-                  <div className="space-y-4">
-                    {menu.primary.map((item) => (
-                      <a
-                        key={item.label}
-                        href={item.href}
-                        className="block text-[clamp(1.4rem,2vw,2rem)] font-black leading-none tracking-[-0.05em] text-white transition-colors hover:text-[color:var(--color-accent)]"
-                      >
-                        {item.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.5em] text-[color:var(--color-accent)]">
-                    Konten Khusus
-                  </p>
-                  <Separator className="my-5 bg-white/10" />
-                  <div className="space-y-4">
-                    {menu.special.map((item) => (
-                      <a
-                        key={item.label}
-                        href={item.href}
-                        className="block text-[clamp(1.15rem,1.6vw,1.75rem)] font-semibold leading-tight text-white/92 transition-colors hover:text-[color:var(--color-accent)]"
-                      >
-                        {item.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="absolute right-6 top-1/2 hidden h-16 w-16 -translate-y-1/2 items-center justify-center rounded-full border border-[color:var(--color-accent)]/45 bg-white text-[color:var(--color-accent)] shadow-[0_18px_50px_rgba(255,255,255,0.16)] lg:flex">
-                  <MoonIcon className="size-6" />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between border-t border-white/10 px-6 py-4 text-[11px] uppercase tracking-[0.35em] text-white/40 sm:px-8 lg:px-10">
-                <span>Innovatif</span>
-                <span>Terpercaya</span>
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
-
-        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-          <img src={logo.src} alt={brand.name} className="h-8 w-auto md:h-10" />
+            <SearchIcon className="size-4 sm:size-[1.1rem]" />
+          </button>
         </div>
 
-        <div className="flex items-center gap-2 justify-self-end">
-          <SearchBar />
-          <div className="hidden text-right md:block">
-            <Badge variant="outline" className="rounded-full border-black/10 bg-white/80 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-foreground/70">
-              {brand.secondary}
-            </Badge>
+        {/* CENTER: Logo — absolutely centered */}
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <img
+            src={logoWhite.src}
+            alt={brand.name}
+            className="h-7 w-auto sm:h-8 md:h-9 lg:h-10"
+          />
+        </div>
+
+        {/* RIGHT: INOVATIF TERPERCAYA # */}
+        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+          {/* Text label — hidden on mobile, visible sm+ */}
+          <div className="hidden flex-col text-right text-[9px] font-black uppercase leading-tight tracking-[0.28em] text-white sm:flex sm:text-[10px]">
+            <span>INOVATIF</span>
+            <span>TERPERCAYA</span>
           </div>
+          {/* # — smaller on mobile */}
+          <span className="hidden sm:inline text-[1.75rem] font-black leading-none text-[color:var(--color-accent)] lg:text-[2rem]">
+            #
+          </span>
+        </div>
+      </div>
+
+      {/* ── Dropdown menu panel ── */}
+      <div
+        className="overflow-hidden transition-all duration-[380ms] ease-in-out"
+        style={{
+          maxHeight: menuOpen ? "520px" : "0px",
+          opacity: menuOpen ? 1 : 0,
+        }}
+        aria-hidden={!menuOpen}
+      >
+        <div className="bg-[rgba(6,6,6,0.97)] backdrop-blur-2xl">
+          <div className="h-px w-full bg-white/[0.07]" />
+
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-0 px-4 py-6 sm:px-6 md:grid-cols-2 lg:px-8 lg:py-10">
+
+            {/* LEFT: Kategori Utama */}
+            <div className="border-b border-white/[0.07] pb-6 md:border-b-0 md:border-r md:pb-0 md:pr-12">
+              <p className="text-[9px] font-black uppercase tracking-[0.45em] text-white/30 sm:text-[10px]">
+                Kategori Utama
+              </p>
+              <div className="mt-4 space-y-0.5">
+                {menu.primary.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="group flex items-center gap-2.5 py-2 text-lg font-black tracking-[-0.02em] text-white transition-all duration-150 hover:text-[color:var(--color-accent)] sm:py-2.5 sm:text-xl"
+                  >
+                    <span className="block h-px w-0 shrink-0 bg-[color:var(--color-accent)] transition-all duration-200 group-hover:w-4" />
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* RIGHT: Konten Khusus */}
+            <div className="relative pt-6 md:pl-12 md:pt-0">
+              <p className="text-[9px] font-black uppercase tracking-[0.45em] text-[color:var(--color-accent)] sm:text-[10px]">
+                Konten Khusus
+              </p>
+              <div className="mt-4 space-y-0">
+                {menu.special.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="group flex items-center gap-2.5 py-1.5 text-sm font-semibold tracking-[-0.01em] text-white/75 transition-all duration-150 hover:text-[color:var(--color-accent)] sm:text-base"
+                  >
+                    <span className="block h-px w-0 shrink-0 bg-[color:var(--color-accent)] transition-all duration-200 group-hover:w-3" />
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+
+              {/* Moon button — desktop only */}
+              <div className="absolute bottom-0 right-0 hidden lg:block">
+                <button
+                  aria-label="Toggle dark mode"
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-[color:var(--color-accent)]/35 bg-white text-[color:var(--color-accent)] shadow-[0_8px_28px_rgba(241,129,143,0.18)] transition-all duration-200 hover:scale-105 hover:shadow-[0_8px_36px_rgba(241,129,143,0.32)]"
+                >
+                  <MoonIcon className="size-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom strip */}
+          <div className="flex items-center justify-between border-t border-white/[0.07] px-4 py-2.5 sm:px-6 lg:px-8">
+            <span className="text-[9px] font-semibold uppercase tracking-[0.4em] text-white/20">
+              Inovatif
+            </span>
+            <span className="text-[9px] font-semibold uppercase tracking-[0.4em] text-white/20">
+              Terpercaya
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Search overlay ── */}
+      <div
+        className="overflow-hidden transition-all duration-[380ms] ease-in-out"
+        style={{
+          maxHeight: searchOpen ? "80px" : "0px",
+          opacity: searchOpen ? 1 : 0,
+        }}
+        aria-hidden={!searchOpen}
+      >
+        <div className="bg-[rgba(10,10,10,0.94)] backdrop-blur-xl px-3 py-3 sm:px-6">
+          <form
+            onSubmit={handleSearch}
+            className="mx-auto flex max-w-3xl items-center gap-2 sm:gap-3"
+          >
+            <div className="relative flex flex-1 items-center">
+              <SearchIcon className="pointer-events-none absolute left-3.5 size-4 text-white/35 sm:left-4 sm:size-5" />
+              <input
+                ref={searchInputRef}
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Escape" && setSearchOpen(false)}
+                placeholder="Cari artikel..."
+                className="h-10 w-full rounded-full border border-white/12 bg-white/9 pl-10 pr-4 text-sm text-white placeholder:text-white/35 outline-none transition-all duration-200 focus:border-[color:var(--color-accent)]/55 focus:bg-white/14 sm:h-11 sm:pl-12 sm:text-base"
+              />
+            </div>
+            <button
+              type="submit"
+              className="h-10 shrink-0 rounded-full bg-[color:var(--color-accent)] px-5 text-[11px] font-black uppercase tracking-[0.2em] text-white transition-all duration-200 hover:brightness-110 active:scale-95 sm:h-11 sm:px-7 sm:text-sm"
+            >
+              CARI
+            </button>
+          </form>
         </div>
       </div>
     </header>

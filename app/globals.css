@@ -142,6 +142,10 @@ a {
   text-decoration: none;
 }
 
+/* Hide scrollbar but keep scroll functionality */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
 ::selection {
   background: rgba(241, 129, 143, 0.24);
   color: var(--foreground);
@@ -151,33 +155,74 @@ a {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-.hero-dots .swiper-pagination-bullet,
+/* feed-dots pagination */
 .feed-dots .swiper-pagination-bullet {
-  width: 0.55rem;
-  height: 0.55rem;
-  margin: 0 0.25rem !important;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin: 0 0.2rem !important;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.35);
-  opacity: 1;
-  transition: width 180ms ease, background-color 180ms ease;
-}
-
-.feed-dots .swiper-pagination-bullet {
   background: rgba(17, 17, 17, 0.2);
+  opacity: 1;
+  transition: width 220ms ease, background-color 220ms ease;
 }
 
-.hero-dots .swiper-pagination-bullet-active,
 .feed-dots .swiper-pagination-bullet-active {
-  width: 1.75rem;
+  width: 1.5rem;
   background: var(--accent);
 }
 
-.hero-dots .swiper-pagination-bullet-active {
+/* hero slider — Swiper built-in pagination override */
+.hero-swiper .swiper-pagination-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.32);
+  opacity: 1;
+  transition: width 220ms ease, background 220ms ease;
+  margin: 0 3px !important;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  width: 1.4rem;
   background: #ffffff;
 }
 
+/* ══════════════════ HERO ANIMATIONS ══════════════════ */
+
+@keyframes heroBgZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.12); }
+}
+
+@keyframes heroFadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Background image slow zoom when active */
+.hero-bg-active {
+  opacity: 1 !important;
+  animation: heroBgZoom 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Base state for text elements */
+.hero-text-anim {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* When the swiper slide is active, trigger fade up with staggers */
+.swiper-slide-active .hero-text-anim {
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.swiper-slide-active .anim-delay-1 { animation-delay: 0.1s; }
+.swiper-slide-active .anim-delay-2 { animation-delay: 0.25s; }
+.swiper-slide-active .anim-delay-3 { animation-delay: 0.4s; }
+.swiper-slide-active .anim-delay-4 { animation-delay: 0.55s; }

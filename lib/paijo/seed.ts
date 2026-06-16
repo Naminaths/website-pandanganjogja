@@ -120,7 +120,7 @@ const latestStories: PaijoStory[] = [
     date: "2026-06-14",
     readingTime: "3 min read",
     image:
-      "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1200&q=80",
     imageAlt: "Football stadium crowd",
     href: "/articles/derby-istimewa-kota",
     kind: "paijo_content",
