@@ -20,7 +20,6 @@ type HeroSliderProps = {
 
 export function HeroSlider({ slides, articles = [] }: HeroSliderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const activeImage = slides[activeIndex % slides.length]?.image ?? "";
 
   return (
     <div className="relative text-white">
@@ -76,7 +75,7 @@ export function HeroSlider({ slides, articles = [] }: HeroSliderProps) {
                   <div className="mx-auto w-full max-w-7xl">
 
                     {/* Category tag */}
-                    <span className="hero-text-anim anim-delay-1 inline-block text-[9px] font-black uppercase tracking-[0.45em] text-[color:var(--color-accent)] sm:text-[10px]">
+                    <span className="hero-text-anim anim-delay-1 inline-block text-[9px] font-black uppercase tracking-[0.45em] text-(--color-accent) sm:text-[10px]">
                       {slide.category}
                     </span>
 
@@ -182,7 +181,7 @@ export function HeroSlider({ slides, articles = [] }: HeroSliderProps) {
                     <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_30%,rgba(0,0,0,0.82))]" />
                     {/* text */}
                     <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-3">
-                      <p className="text-[7px] font-black uppercase tracking-[0.28em] text-[color:var(--color-accent)] sm:text-[8px]">
+                      <p className="text-[7px] font-black uppercase tracking-[0.28em] text-(--color-accent) sm:text-[8px]">
                         {article.category}
                       </p>
                       <p className="mt-0.5 line-clamp-2 text-[9px] font-bold leading-snug text-white sm:text-[10px]">

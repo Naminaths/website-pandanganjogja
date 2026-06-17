@@ -24,14 +24,14 @@ export function FeedCarousel({ items }: FeedCarouselProps) {
       <div className="mb-4 flex items-center justify-end gap-2">
         <button
           type="button"
-          className="feed-prev flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-foreground shadow-sm transition hover:bg-[color:var(--color-accent)] hover:text-white"
+          className="feed-prev flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-foreground shadow-sm transition hover:bg-(--color-accent) hover:text-white"
           aria-label="Previous feed"
         >
           <ChevronLeftIcon className="size-4" />
         </button>
         <button
           type="button"
-          className="feed-next flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-foreground shadow-sm transition hover:bg-[color:var(--color-accent)] hover:text-white"
+          className="feed-next flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-foreground shadow-sm transition hover:bg-(--color-accent) hover:text-white"
           aria-label="Next feed"
         >
           <ChevronRightIcon className="size-4" />
@@ -55,14 +55,14 @@ export function FeedCarousel({ items }: FeedCarouselProps) {
             <Card className="h-full overflow-hidden border-black/10 bg-background shadow-[0_18px_60px_rgba(84,54,21,0.08)]">
               <CardHeader className="p-0">
                 <div className="relative">
-                  <img src={item.image} alt={item.imageAlt} className="aspect-[4/3] w-full object-cover" />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,_transparent,_rgba(0,0,0,0.5))]" />
+                  <img src={item.image} alt={item.imageAlt} className="aspect-4/3 w-full object-cover" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(0,0,0,0.5))]" />
                   <div className="absolute left-4 top-4 flex items-center gap-2">
                     <Badge className="rounded-full bg-black/70 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-white">
                       {item.category}
                     </Badge>
                   </div>
-                  <div className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-[color:var(--color-accent)] shadow-lg">
+                  <div className="absolute bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-(--color-accent) shadow-lg">
                     <PlayIcon className="size-5" />
                   </div>
                 </div>
